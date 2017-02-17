@@ -339,9 +339,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FoodStuff" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sR7-Nf-zbH">
-                                <rect key="frame" x="16" y="88" width="288" height="44"/>
+                                <rect key="frame" x="16" y="114" width="288" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="Dha-DY-YeP"/>
+                                    <constraint firstAttribute="height" constant="44" id="8uz-ry-eMD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <color key="textColor" red="0.26965395939999998" green="0.2153190985" blue="0.12292268720000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -351,7 +351,7 @@
                                 <rect key="frame" x="16" y="238" width="288" height="42"/>
                                 <color key="backgroundColor" red="0.58379008507853403" green="0.46615727463181189" blue="0.26612272334477" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="twy-wY-rnh"/>
+                                    <constraint firstAttribute="height" constant="42" id="3Kc-3B-mSJ"/>
                                 </constraints>
                                 <state key="normal" title="Sök efter livsmedel">
                                     <color key="titleColor" red="0.26965395942408377" green="0.21531909847680644" blue="0.12292268724122588" alpha="1" colorSpace="calibratedRGB"/>
@@ -364,7 +364,7 @@
                                 <rect key="frame" x="16" y="288" width="288" height="42"/>
                                 <color key="backgroundColor" red="0.58379008509999997" green="0.4661572746" blue="0.26612272329999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="ldp-Wq-1ef"/>
+                                    <constraint firstAttribute="height" constant="42" id="uHy-D0-AJ0"/>
                                 </constraints>
                                 <state key="normal" title="Favoriter">
                                     <color key="titleColor" red="0.26965395939999998" green="0.2153190985" blue="0.12292268720000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -376,15 +376,15 @@
                         </subviews>
                         <color key="backgroundColor" red="0.82986338350785338" green="0.66264717928656613" blue="0.37829608495921291" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="fdJ-V9-ze6" firstAttribute="top" secondItem="FnO-x1-o3U" secondAttribute="bottom" constant="8" symbolic="YES" id="6HL-On-LUP"/>
-                            <constraint firstItem="FnO-x1-o3U" firstAttribute="leading" secondItem="fdJ-V9-ze6" secondAttribute="leading" id="EZi-n3-Nlg"/>
-                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="trailing" secondItem="FnO-x1-o3U" secondAttribute="trailing" id="Neg-01-IZv"/>
-                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="top" secondItem="Vhb-wT-zGV" secondAttribute="bottom" constant="24" id="Xb0-z4-bqs"/>
-                            <constraint firstItem="FnO-x1-o3U" firstAttribute="trailing" secondItem="fdJ-V9-ze6" secondAttribute="trailing" id="YIh-yR-MAL"/>
-                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="trailing" secondItem="Y5n-P4-SGx" secondAttribute="trailingMargin" id="hoJ-pf-rvK"/>
-                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="leading" secondItem="Y5n-P4-SGx" secondAttribute="leadingMargin" id="isg-q8-erS"/>
-                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="leading" secondItem="FnO-x1-o3U" secondAttribute="leading" id="xYC-Y2-e9o"/>
-                            <constraint firstItem="nqV-Jx-jkj" firstAttribute="top" secondItem="fdJ-V9-ze6" secondAttribute="bottom" constant="238" id="zoS-2f-ubt"/>
+                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="trailing" secondItem="Y5n-P4-SGx" secondAttribute="trailingMargin" id="0Hb-dE-yO2"/>
+                            <constraint firstItem="fdJ-V9-ze6" firstAttribute="centerY" secondItem="Y5n-P4-SGx" secondAttribute="centerY" constant="25" id="6uH-lc-BL3"/>
+                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="top" secondItem="Vhb-wT-zGV" secondAttribute="bottom" constant="50" id="7sU-ZZ-rtH"/>
+                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="leading" secondItem="FnO-x1-o3U" secondAttribute="leading" id="K3I-Xa-eeX"/>
+                            <constraint firstItem="FnO-x1-o3U" firstAttribute="centerY" secondItem="Y5n-P4-SGx" secondAttribute="centerY" constant="-25" id="M1b-Ol-NmJ"/>
+                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="leading" secondItem="Y5n-P4-SGx" secondAttribute="leadingMargin" id="Ofv-bg-PaP"/>
+                            <constraint firstItem="FnO-x1-o3U" firstAttribute="trailing" secondItem="fdJ-V9-ze6" secondAttribute="trailing" id="glz-hG-pKn"/>
+                            <constraint firstItem="FnO-x1-o3U" firstAttribute="leading" secondItem="fdJ-V9-ze6" secondAttribute="leading" id="nRS-Vr-rHp"/>
+                            <constraint firstItem="sR7-Nf-zbH" firstAttribute="trailing" secondItem="FnO-x1-o3U" secondAttribute="trailing" id="yOT-he-c5k"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9qY-kg-VRf"/>
