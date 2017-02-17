@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class InfoViewController: UIViewController {
 
     @IBOutlet weak var itemNameLabel: UILabel!
     var itemName: String = ""

@@ -1,17 +1,17 @@
 //
-//  TableViewController.swift
+//  FavoriteTableViewController.swift
 //  FoodApp
 //
-//  Created by Scott Crocker on 2017-02-16.
+//  Created by Scott Crocker on 2017-02-18.
 //  Copyright © 2017 Scott Crocker. All rights reserved.
 //
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class FavoriteTableViewController: UITableViewController {
     
-    let tableItems = ["Bordsmargarin", "Salladskål"]
-    let tableItemsCalories = [531, 21]
+    var favoriteItems : [String] = []
+    var favoriteItemsCalories : [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,19 +37,18 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        
-        return tableItems.count
+        return favoriteItems.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-
-        // Configure the cell...
-        cell.textLabel?.text = tableItems[indexPath.row]
-        cell.detailTextLabel?.text = "Kalorier (kcal): \(tableItemsCalories[indexPath.row])"
-        
-        return cell
+     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+     
+     // Configure the cell...
+     cell.textLabel?.text = favoriteItems[indexPath.row]
+     cell.detailTextLabel?.text = "Kalorier (kcal): \(favoriteItemsCalories[indexPath.row])"
+     
+     return cell
     }
     
 
@@ -93,10 +92,12 @@ class TableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        let cell = sender as! UITableViewCell
-        let infovc = segue.destination as! InfoViewController
-        infovc.itemName = (cell.textLabel?.text)!
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     let cell = sender as! UITableViewCell
+     let infovc = segue.destination as! InfoViewController
+     infovc.itemName = (cell.textLabel?.text)!
     }
+    
+
 }

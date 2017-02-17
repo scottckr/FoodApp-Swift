@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		391E68191E57B9CE0006C32F /* FavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E68181E57B9CE0006C32F /* FavoriteTableViewController.swift */; };
+		391E681B1E57BC690006C32F /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E681A1E57BC690006C32F /* MenuViewController.swift */; };
 		399011371E564559008C9187 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399011361E564559008C9187 /* AppDelegate.swift */; };
-		399011391E564559008C9187 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399011381E564559008C9187 /* ViewController.swift */; };
+		399011391E564559008C9187 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399011381E564559008C9187 /* InfoViewController.swift */; };
 		3990113C1E564559008C9187 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3990113A1E564559008C9187 /* Main.storyboard */; };
 		3990113E1E564559008C9187 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3990113D1E564559008C9187 /* Assets.xcassets */; };
 		399011411E564559008C9187 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3990113F1E564559008C9187 /* LaunchScreen.storyboard */; };
@@ -16,9 +18,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		391E68181E57B9CE0006C32F /* FavoriteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewController.swift; sourceTree = "<group>"; };
+		391E681A1E57BC690006C32F /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		399011331E564559008C9187 /* FoodApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		399011361E564559008C9187 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		399011381E564559008C9187 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		399011381E564559008C9187 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		3990113B1E564559008C9187 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3990113D1E564559008C9187 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		399011401E564559008C9187 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,12 +61,14 @@
 			isa = PBXGroup;
 			children = (
 				399011361E564559008C9187 /* AppDelegate.swift */,
-				399011381E564559008C9187 /* ViewController.swift */,
 				3990113A1E564559008C9187 /* Main.storyboard */,
+				399011381E564559008C9187 /* InfoViewController.swift */,
+				391E681A1E57BC690006C32F /* MenuViewController.swift */,
+				391E68181E57B9CE0006C32F /* FavoriteTableViewController.swift */,
+				3990114A1E564A65008C9187 /* TableViewController.swift */,
 				3990113D1E564559008C9187 /* Assets.xcassets */,
 				3990113F1E564559008C9187 /* LaunchScreen.storyboard */,
 				399011421E564559008C9187 /* Info.plist */,
-				3990114A1E564A65008C9187 /* TableViewController.swift */,
 			);
 			path = FoodApp;
 			sourceTree = "<group>";
@@ -140,7 +146,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				399011391E564559008C9187 /* ViewController.swift in Sources */,
+				399011391E564559008C9187 /* InfoViewController.swift in Sources */,
+				391E681B1E57BC690006C32F /* MenuViewController.swift in Sources */,
+				391E68191E57B9CE0006C32F /* FavoriteTableViewController.swift in Sources */,
 				3990114B1E564A65008C9187 /* TableViewController.swift in Sources */,
 				399011371E564559008C9187 /* AppDelegate.swift in Sources */,
 			);
