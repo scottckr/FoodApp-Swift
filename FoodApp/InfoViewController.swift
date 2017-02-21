@@ -11,7 +11,10 @@ import UIKit
 class InfoViewController: UIViewController {
 
     @IBOutlet weak var itemNameLabel: UILabel!
+
     var itemName: String = ""
+    var itemNumber: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -23,6 +26,9 @@ class InfoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailVC = segue.destination as! InfoTableViewController
+        detailVC.itemNumber = itemNumber
+    }
 }
 

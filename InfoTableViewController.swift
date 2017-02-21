@@ -1,16 +1,25 @@
 //
-//  TableViewController.swift
+//  InfoTableViewController.swift
 //  FoodApp
 //
-//  Created by Scott Crocker on 2017-02-16.
+//  Created by Scott Crocker on 2017-02-20.
 //  Copyright © 2017 Scott Crocker. All rights reserved.
 //
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class InfoTableViewController: UITableViewController {
+    @IBOutlet weak var cellOne: UITableViewCell!
+    @IBOutlet weak var cellTwo: UITableViewCell!
+    @IBOutlet weak var cellThree: UITableViewCell!
+    @IBOutlet weak var cellFour: UITableViewCell!
+    @IBOutlet weak var cellFive: UITableViewCell!
+    @IBOutlet weak var cellSix: UITableViewCell!
     
-    var tableItemsJson : [[String:Any]] = []
+    var cellPrefixes : [String] = ["Kalorier (kJ)", "Kalorier (kcal)", "Fett", "Kolhydrater", "Protein", "Salt"]
+    var cellTexts : [Float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    
+    var itemNumber : Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +30,7 @@ class TableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        if let url = URL(string: "http://www.matapi.se/foodstuff") {
+        if let url = URL(string: "http://www.matapi.se/foodstuff/\(itemNumber)") {
             let request = URLRequest(url: url)
             
             let task = URLSession.shared.dataTask(with: request) {
@@ -30,8 +39,16 @@ class TableViewController: UITableViewController {
                 if let unwrappedData = data {
                     do {
                         let options = JSONSerialization.ReadingOptions()
-                        if let parsedData = try JSONSerialization.jsonObject(with: unwrappedData, options: options) as? [[String:Any]] {
-                            self.tableItemsJson = parsedData
+                        if let parsedData = try JSONSerialization.jsonObject(with: unwrappedData, options: options) as? [String:Any] {
+                            let itemInfo = parsedData["nutrientValues"] as! [String:Any]
+                            
+                            self.cellTexts[0] = itemInfo["energyKj"] as! Float
+                            self.cellTexts[1] = itemInfo["energyKcal"] as! Float
+                            self.cellTexts[2] = itemInfo["fat"] as! Float
+                            self.cellTexts[3] = itemInfo["carbohydrates"] as! Float
+                            self.cellTexts[4] = itemInfo["protein"] as! Float
+                            self.cellTexts[5] = itemInfo["salt"] as! Float
+                            
                             self.tableView.reloadData()
                         } else {
                             print("Failed to parse json.")
@@ -61,45 +78,21 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        
-        return tableItemsJson.count
+        return cellTexts.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath)
 
         // Configure the cell...
-        cell.textLabel?.text = tableItemsJson[indexPath.row]["name"] as! String?
-        
-        
-        let itemNumber : Int = tableItemsJson[indexPath.row]["number"] as! Int
-        
-        if let url = URL(string: "http://www.matapi.se/foodstuff/\(itemNumber)") {
-            let request = URLRequest(url: url)
-            
-            let task = URLSession.shared.dataTask(with: request) {
-                (data: Data?, response: URLResponse?, error: Error?) in
-                
-                if let unwrappedData = data {
-                    do {
-                        let options = JSONSerialization.ReadingOptions()
-                        if let parsedData = try JSONSerialization.jsonObject(with: unwrappedData, options: options) as? [String:Any] {
-                            let itemInfo = parsedData["nutrientValues"]! as! [String : Any]
-                            cell.detailTextLabel?.text = "Kalorier (kcal): \(itemInfo["energyKcal"] as! Int)"
-                        } else {
-                            print("Failed to parse json.")
-                        }
-                    } catch let error {
-                        print("Error parsing json: \(error)")
-                    }
-                } else {
-                    print("No data.")
-                }
-            }
-            task.resume()
+        if indexPath.row >= 0 && indexPath.row <= 1 {
+            cell.textLabel?.text = "\(cellPrefixes[indexPath.row]): \(cellTexts[indexPath.row])"
+        } else {
+            cell.textLabel?.text = "\(cellPrefixes[indexPath.row]): \(cellTexts[indexPath.row])g"
         }
         
+
         return cell
     }
     
@@ -139,20 +132,14 @@ class TableViewController: UITableViewController {
     }
     */
 
-    
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let cell = sender as! UITableViewCell
-        let infoVC = segue.destination as! InfoViewController
-        for item in tableItemsJson {
-            if item["name"] as? String == cell.textLabel?.text {
-                infoVC.itemNumber = item["number"] as! Int
-            }
-        }
-        infoVC.itemName = (cell.textLabel?.text)!
     }
+    */
+
 }
