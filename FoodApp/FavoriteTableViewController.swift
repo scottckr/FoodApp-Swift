@@ -10,17 +10,21 @@ import UIKit
 
 class FavoriteTableViewController: UITableViewController {
     
-    var favoriteItems : [String] = []
-    var favoriteItemsCalories : [String] = []
+    var favoriteItems : [[String:Any]] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        favoriteItems = UserDefaults.standard.object(forKey: "favoriteItems") as! [[String : Any]]
+        
+        tableView.reloadData()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.editButtonItem.title = "Redigera"
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,24 +35,26 @@ class FavoriteTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return favoriteItems.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
+        
+        var item = favoriteItems[indexPath.row]
+        cell.data = item
+        // Configure the cell...
+        cell.textLabel?.text = item["name"] as! String?
+        var cellValues : [String:Any] = item["nutrientValues"] as! [String : Any]
+        let cellKcal = cellValues["energyKcal"] as! Int
+        cell.detailTextLabel?.text = "Kalorier (kcal): \(cellKcal)"
      
-     // Configure the cell...
-     cell.textLabel?.text = favoriteItems[indexPath.row]
-     cell.detailTextLabel?.text = "Kalorier (kcal): \(favoriteItemsCalories[indexPath.row])"
-     
-     return cell
+        return cell
     }
     
 
@@ -60,17 +66,18 @@ class FavoriteTableViewController: UITableViewController {
     }
     */
 
-    /*
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            favoriteItems.remove(at: indexPath.row)
+            UserDefaults.standard.set(favoriteItems, forKey: "favoriteItems")
+            UserDefaults.standard.synchronize()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
 
     /*
     // Override to support rearranging the table view.
@@ -92,12 +99,9 @@ class FavoriteTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     let cell = sender as! UITableViewCell
-     let infovc = segue.destination as! InfoViewController
-     infovc.itemName = (cell.textLabel?.text)!
+        let infoVC = segue.destination as! InfoViewController
+        if let cell = sender as? CustomTableViewCell {
+            infoVC.itemInfo = cell.data
+        }
     }
-    
-
 }

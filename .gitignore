@@ -9,6 +9,9 @@
 ## Build generated
 build/
 DerivedData/
+Podfile.lock
+Pods/
+FoodApp.xcworkspace
 
 ## Various settings
 *.pbxuser

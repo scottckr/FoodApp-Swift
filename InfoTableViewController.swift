@@ -17,7 +17,10 @@ class InfoTableViewController: UITableViewController {
     @IBOutlet weak var cellSix: UITableViewCell!
     
     var cellPrefixes : [String] = ["Kalorier (kJ)", "Kalorier (kcal)", "Fett", "Kolhydrater", "Protein", "Salt"]
-    var cellTexts : [Float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    var cellTexts : [Float] = [0, 0, 0, 0, 0, 0]
+    
+    var itemInfo : [String:Any] = [:]
+    var nutrientValues : [String:Any] = [:]
     
     var itemNumber : Int = 0
 
@@ -29,39 +32,14 @@ class InfoTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        nutrientValues = itemInfo["nutrientValues"] as! [String : Any]
         
-        if let url = URL(string: "http://www.matapi.se/foodstuff/\(itemNumber)") {
-            let request = URLRequest(url: url)
-            
-            let task = URLSession.shared.dataTask(with: request) {
-                (data: Data?, response: URLResponse?, error: Error?) in
-                
-                if let unwrappedData = data {
-                    do {
-                        let options = JSONSerialization.ReadingOptions()
-                        if let parsedData = try JSONSerialization.jsonObject(with: unwrappedData, options: options) as? [String:Any] {
-                            let itemInfo = parsedData["nutrientValues"] as! [String:Any]
-                            
-                            self.cellTexts[0] = itemInfo["energyKj"] as! Float
-                            self.cellTexts[1] = itemInfo["energyKcal"] as! Float
-                            self.cellTexts[2] = itemInfo["fat"] as! Float
-                            self.cellTexts[3] = itemInfo["carbohydrates"] as! Float
-                            self.cellTexts[4] = itemInfo["protein"] as! Float
-                            self.cellTexts[5] = itemInfo["salt"] as! Float
-                            
-                            self.tableView.reloadData()
-                        } else {
-                            print("Failed to parse json.")
-                        }
-                    } catch let error {
-                        print("Error parsing json: \(error)")
-                    }
-                } else {
-                    print("No data.")
-                }
-            }
-            task.resume()
-        }
+        self.cellTexts[0] = nutrientValues["energyKj"] as! Float
+        self.cellTexts[1] = nutrientValues["energyKcal"] as! Float
+        self.cellTexts[2] = nutrientValues["fat"] as! Float
+        self.cellTexts[3] = nutrientValues["carbohydrates"] as! Float
+        self.cellTexts[4] = nutrientValues["protein"] as! Float
+        self.cellTexts[5] = nutrientValues["salt"] as! Float
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +65,7 @@ class InfoTableViewController: UITableViewController {
 
         // Configure the cell...
         if indexPath.row >= 0 && indexPath.row <= 1 {
-            cell.textLabel?.text = "\(cellPrefixes[indexPath.row]): \(cellTexts[indexPath.row])"
+            cell.textLabel?.text = "\(cellPrefixes[indexPath.row]): \(Int(cellTexts[indexPath.row]))"
         } else {
             cell.textLabel?.text = "\(cellPrefixes[indexPath.row]): \(cellTexts[indexPath.row])g"
         }

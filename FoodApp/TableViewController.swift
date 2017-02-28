@@ -8,19 +8,33 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UITableViewController, UISearchResultsUpdating {
+    
+    var searchController : UISearchController!
+    
+    var searchResults : [[String:Any]] = []
     
     var tableItemsJson : [[String:Any]] = []
+    
+    var shouldUseSearchResult : Bool {
+        return searchController.isActive && !(searchController.searchBar.text ?? "").isEmpty
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+        definesPresentationContext = true
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        tableView.tableHeaderView = searchController.searchBar
+        
+        getAllTableItems()
+    }
+    
+    func getAllTableItems() {
         if let url = URL(string: "http://www.matapi.se/foodstuff") {
             let request = URLRequest(url: url)
             
@@ -34,46 +48,60 @@ class TableViewController: UITableViewController {
                             self.tableItemsJson = parsedData
                             self.tableView.reloadData()
                         } else {
-                            print("Failed to parse json.")
+                            print("ALLITEMS: Failed to parse json.")
                         }
                     } catch let error {
-                        print("Error parsing json: \(error)")
+                        print("ALLITEMS: Error parsing all json: \(error)")
                     }
                 } else {
-                    print("No data.")
+                    print("ALLITEMS: No data.")
                 }
             }
             task.resume()
         }
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        if let text = searchController.searchBar.text?.lowercased() {
+            for item in tableItemsJson {
+                let itemName = item["name"] as! String
+                if itemName.contains(text) {
+                    searchResults.append(item)
+                }
+            }
+            //searchResultNames = tableItemsJson.flatMap({$0["name"] as? String}).filter({ $0.lowercased().contains(text) })
+        } else {
+            searchResults = []
+        }
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        
-        return tableItemsJson.count
+        if shouldUseSearchResult {
+            return searchResults.count
+        } else {
+            return tableItemsJson.count
+        }
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
+        var itemNumber : Int = 0
         // Configure the cell...
-        cell.textLabel?.text = tableItemsJson[indexPath.row]["name"] as! String?
-        
-        
-        let itemNumber : Int = tableItemsJson[indexPath.row]["number"] as! Int
+        if shouldUseSearchResult {
+            itemNumber = searchResults[indexPath.row]["number"] as! Int
+            //cell.textLabel?.text = searchResultNames[indexPath.row]
+        } else {
+            itemNumber = tableItemsJson[indexPath.row]["number"] as! Int
+        }
         
         if let url = URL(string: "http://www.matapi.se/foodstuff/\(itemNumber)") {
             let request = URLRequest(url: url)
@@ -85,74 +113,36 @@ class TableViewController: UITableViewController {
                     do {
                         let options = JSONSerialization.ReadingOptions()
                         if let parsedData = try JSONSerialization.jsonObject(with: unwrappedData, options: options) as? [String:Any] {
-                            let itemInfo = parsedData["nutrientValues"]! as! [String : Any]
-                            cell.detailTextLabel?.text = "Kalorier (kcal): \(itemInfo["energyKcal"] as! Int)"
+                            let cellNutrients = parsedData["nutrientValues"] as? [String:Any]
+                            let cellKcal = cellNutrients!["energyKcal"] as! Int
+                            cell.textLabel?.text = parsedData["name"] as? String
+                            cell.detailTextLabel?.text = "Kalorier (kcal): \(cellKcal)"
+                            cell.data = parsedData
                         } else {
-                            print("Failed to parse json.")
+                            print("ITEMINFO: Failed to parse json.")
                         }
                     } catch let error {
-                        print("Error parsing json: \(error)")
+                        print("ITEMINFO: Error parsing json: \(error)")
                     }
                 } else {
-                    print("No data.")
+                    print("ITEMINFO: No data.")
                 }
             }
+            
             task.resume()
         }
-        
+
+    
         return cell
     }
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        let cell = sender as! UITableViewCell
         let infoVC = segue.destination as! InfoViewController
-        for item in tableItemsJson {
-            if item["name"] as? String == cell.textLabel?.text {
-                infoVC.itemNumber = item["number"] as! Int
-            }
+        if let cell = sender as? CustomTableViewCell {
+            infoVC.itemInfo = cell.data
         }
-        infoVC.itemName = (cell.textLabel?.text)!
     }
 }
