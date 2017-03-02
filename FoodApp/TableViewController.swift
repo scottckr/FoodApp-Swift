@@ -87,7 +87,7 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
         if shouldUseSearchResult {
             return searchResults.count
         } else {
-            return tableItemsJson.count
+            return 0
         }
     }
 
