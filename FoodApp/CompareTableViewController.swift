@@ -1,25 +1,28 @@
 //
-//  TableViewController.swift
+//  CompareTableViewController.swift
 //  FoodApp
 //
-//  Created by Scott Crocker on 2017-02-16.
+//  Created by Scott Crocker on 2017-03-04.
 //  Copyright © 2017 Scott Crocker. All rights reserved.
 //
 
 import UIKit
 
-class TableViewController: UITableViewController, UISearchResultsUpdating {
-    
+class CompareTableViewController: UITableViewController, UISearchResultsUpdating {
+
     var searchController : UISearchController!
     
     var searchResults : [[String:Any]] = []
     
     var tableItemsJson : [[String:Any]] = []
     
+    var item1 : [String:Any] = [:]
+    var item2 : [String:Any] = [:]
+    
     var shouldUseSearchResult : Bool {
         return searchController.isActive && !(searchController.searchBar.text ?? "").isEmpty
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,13 +88,13 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
         }
         tableView.reloadData()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if shouldUseSearchResult {
             return searchResults.count
@@ -99,10 +102,10 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
             return 0
         }
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CompareCell", for: indexPath) as! CustomTableViewCell
         let itemNumber = searchResults[indexPath.row]["number"] as! Int
         
         if let url = URL(string: "http://www.matapi.se/foodstuff/\(itemNumber)") {
@@ -133,18 +136,17 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
             
             task.resume()
         }
-
-    
         return cell
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let infoVC = segue.destination as! InfoViewController
+        let compareVC = segue.destination as! ComparisonViewController
+        compareVC.item1 = item1
         if let cell = sender as? CustomTableViewCell {
-            infoVC.itemInfo = cell.data
+            compareVC.item2 = cell.data
         }
     }
 }

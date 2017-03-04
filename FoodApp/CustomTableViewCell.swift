@@ -9,11 +9,8 @@
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-    
-    var itemNumber : Int = 0
+
     var data : [String:Any] = [:]
-    var extendedData : [String:Any] = [:]
-    var nutrientValues : [String:Any] = [:]
 
     override func awakeFromNib() {
         super.awakeFromNib()
